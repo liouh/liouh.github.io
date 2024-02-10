@@ -1,0 +1,129 @@
+html, body {
+	background-color: #222;
+	height: 100%;
+	overflow: hidden;
+	font-family: Sans-serif;
+	
+	-ms-touch-action: none;
+	touch-action: none;
+	-webkit-touch-callout: none;
+	-webkit-user-select: none;
+	-khtml-user-select: none;
+	-moz-user-select: none;
+	-ms-user-select: none;
+	user-select: none;
+}
+
+.display-area {
+	margin: 0 auto;
+	background-color: #333;
+	box-shadow: 0 0 20px 10px black, inset 0 0 20px 10px black;
+	color: white;
+	position: relative;
+}
+
+.display-area .counter {
+	margin-left: 5%;
+	margin-bottom: 1%;
+	padding-left: 11%;
+	background-position: left;
+	background-repeat: no-repeat;
+	background-size: auto 100%;
+}
+
+.display-area .last-combo {
+	position: absolute;
+	text-align: right;
+	right: 8%;
+	top: 175%;
+	z-index: 5;
+	font-style: italic;
+	text-shadow: 0 0 .1em white, 0 0 .2em black, 0 0 .3em black, 0 0 .4em black, 0 0 .5em black;
+}
+
+.display-area .last-combo:after {
+	content: 'combos';
+	font-size: 20%;
+	display: block;
+}
+
+.display-area .stats {
+	position: absolute;
+	text-align: right;
+	right: 5%;
+	bottom: 12%;
+	font-weight: bold;
+}
+
+.display-area .stats span {
+	font-size: 50%;
+	display: block;
+	margin-top: 2%;
+	margin-bottom: 20%;
+	font-weight: normal;
+	color: #999;
+}
+
+.display-area .countdown {
+	height: 4%;
+	background-color: #3ADF00;
+	position: absolute;
+	bottom: 4%;
+	width: 100%;
+	transition: width 0.6s linear;
+	box-shadow: inset 0 1px 5px white, inset 0 -1px 5px black;
+}
+
+.display-area.inactive .countdown {
+	background-color: gray;
+}
+
+.play-area {
+	margin: 0 auto;
+	background-color: black;
+	box-shadow: 0 0 20px 10px black;
+}
+
+.block {
+	position: absolute;
+	transition: top 0.05s linear, left 0.05s linear;
+	background-size: 105%;
+	background-position: center;
+	background-repeat: no-repeat;
+}
+
+.block.active {
+	transition: none;
+}
+
+.block.flash {
+	visibility: hidden;
+}
+
+.block.blink {
+	visibility: visible;
+}
+
+.elem-0 {
+	background-image: url(../images/water.png);
+}
+
+.elem-1 {
+	background-image: url(../images/fire.png);
+}
+
+.elem-2 {
+	background-image: url(../images/earth.png);
+}
+
+.elem-3 {
+	background-image: url(../images/light.png);
+}
+
+.elem-4 {
+	background-image: url(../images/dark.png);
+}
+
+.elem-5 {
+	background-image: url(../images/heart.png);
+}

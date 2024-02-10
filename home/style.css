@@ -1,0 +1,222 @@
+@import url('http://fonts.googleapis.com/css?family=Open+Sans');
+
+body {
+	background: #efefef url('background.jpg') top left fixed;
+	background-size: cover;
+	color: #333;
+	font-family: 'Open Sans';
+}
+
+/* ================================================== *\
+   nav
+\* ================================================== */
+
+nav {
+	padding: 30px 20px 0;
+}
+
+@media (min-width: 768px) {
+	nav {
+		position: fixed;
+		width: 200px;
+		padding: 50px;
+	}
+}
+
+nav .avatar {
+	display: inline-block;
+	vertical-align: middle;
+	margin-right: 12px;
+}
+
+nav .avatar img {
+	display: block;
+	border-radius: 50%;
+	width: 100px;
+}
+
+@media (min-width: 768px) {
+	nav .avatar img {
+		width: 126px;
+	}
+}
+
+nav h1 {
+	display: inline-block;
+	vertical-align: middle;
+	font-size: 25px;
+}
+
+@media (min-width: 768px) {
+	nav h1 {
+		margin: 20px 0 0;
+	}
+}
+
+nav .links {
+	margin: 30px 0;
+	padding: 15px 0;
+	border-top: 1px solid #999;
+	border-bottom: 1px solid #999;
+}
+
+nav .links a {
+	display: block;
+	padding: 5px 0;
+	color: #333;
+	text-decoration: none;
+	font-size: 20px;
+}
+
+nav .links a:hover {
+	color: #000;
+	font-weight: bold;
+}
+
+nav .icons a {
+	margin-right: 8px;
+	color: #666;
+	font-size: 30px;
+}
+
+nav .icons a:hover {
+	color: #000;
+}
+
+/* ================================================== *\
+   main
+\* ================================================== */
+
+main {
+	padding: 50px 20px;
+}
+
+@media (min-width: 768px) {
+	main {
+		margin-left: 280px;
+	}
+}
+
+section {
+	margin: 0 auto 50px;
+	box-shadow: 0 1px 3px rgba(0, 0, 0, .2);
+	background-color: #fff;
+	background-color: rgba(255, 255, 255, .7);
+	border-top: 2px solid #737373;
+	padding: 10px 20px 20px;
+	max-width: 650px;
+	font-size: 14px;
+}
+
+@media (min-width: 768px) {
+	section {
+		padding: 15px 30px 30px 60px;
+	}
+}
+
+section h2 {
+	font-weight: normal;
+	font-size: 25px;
+}
+
+@media (min-width: 768px) {
+	section h2 {
+		margin-left: -30px;
+	}
+}
+
+section h3 {
+	padding-top: 10px;
+}
+
+section a {
+	color: #333;
+}
+
+section a:hover {
+	color: #999;
+}
+
+/* ================================================== *\
+   toggle
+\* ================================================== */
+
+.toggle {
+	display: none;
+}
+
+.toggle + label + div {
+	display: none;
+}
+
+.toggle:checked + label {
+	display: none;
+}
+
+.toggle:checked + label + div {
+	display: block;
+}
+
+section .toggle + label,
+section label.collapse {
+	display: block;
+	padding: 15px 0;
+}
+
+section .toggle + label:before {
+	content: 'show more \00BB';
+}
+
+section label.collapse:before {
+	content: '\00AB  show less';
+}
+
+section .toggle + label:hover,
+section label.collapse:hover {
+	cursor: pointer;
+	text-decoration: underline;
+	color: #999;
+}
+
+/* ================================================== *\
+   sections
+\* ================================================== */
+
+#education {
+	border-color: #7FBA00;
+}
+
+#work {
+	border-color: #F24F22;
+}
+
+#projects {
+	border-color: #00A4EC;
+}
+
+#sandbox {
+	border-color: #FEB900;
+}
+
+/* ================================================== *\
+   footer
+\* ================================================== */
+
+footer {
+	text-align: center;
+	line-height: 50px;
+	font-size: 30px;
+	color: #fff;
+}
+
+footer a {
+	color: #fff;
+}
+
+footer div {
+	font-size: 16px;
+}
+
+footer div .fa {
+	font-size: 21px;
+}

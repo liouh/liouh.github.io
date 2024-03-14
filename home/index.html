@@ -146,6 +146,50 @@
             <i class="fa fa-fw fa-github" title="Hosted by GitHub Pages"></i>
         </footer>
     </main>
+    <svg xmlns="http://www.w3.org/2000/svg" id="background">
+       <defs>
+         <linearGradient id='fade' gradientUnits='objectBoundingBox' x1='1' y1='0' x2='1' y2='1' >
+           <stop offset='0' stop-color='#fafafa' stop-opacity='1'></stop>
+           <stop offset='1' stop-color='#fafafa' stop-opacity='.25'></stop>
+         </linearGradient>
+         <linearGradient id='a' gradientUnits='objectBoundingBox' x1='0' y1='0' x2='1' y2='1'>
+             <stop offset='0' stop-color='#11EFE3' stop-opacity='1'>
+                <animate attributeName="stop-color"
+                   values="#11EFE3;#80E9FF;#0048E5;#7A73FF;#11EFE3;" dur="20s" repeatCount="indefinite">
+                </animate>
+             </stop>
+             <stop offset='.5' stop-color='#80E9FF' stop-opacity='.5'>
+                <animate attributeName="stop-color"
+                   values="#80E9FF;#0048E5;#7A73FF;#11EFE3;#80E9FF;" dur="20s" repeatCount="indefinite">
+                </animate>
+             </stop>
+             <stop offset='1' stop-color='#0048E5' stop-opacity='.5'>
+                <animate attributeName="stop-color"
+                   values="#0048E5;#7A73FF;#11EFE3;#80E9FF;#0048E5;" dur="20s" repeatCount="indefinite">
+                </animate>
+             </stop>
+             <animateTransform attributeName="gradientTransform" type="rotate" from="0 .5 .5" to="360 .5 .5"
+                dur="30s" repeatCount="indefinite" />
+          </linearGradient>
+          <linearGradient id='b' gradientUnits='objectBoundingBox' x1='0' y1='1' x2='1' y2='1'>
+             <stop offset='.5' stop-color='#9966FF' stop-opacity='0'>
+                <animate attributeName="stop-color"
+                   values="#9966FF;#FF80FF;#F6F9FB;#11EFE3;#F6F9FB;#9966FF;" dur="20s" repeatCount="indefinite">
+                </animate>
+             </stop>
+             <stop offset='1' stop-color='#FF80FF' stop-opacity="1">
+                <animate attributeName="stop-color"
+                   values="#FF80FF;#F6F9FB;#FF80FF;#F6F9FB;#9966FF;#FF80FF;" dur="20s" repeatCount="indefinite">
+                </animate>
+             </stop>
+             <animateTransform attributeName="gradientTransform" type="rotate" values="360 .5 .5;0 .5 .5" class="ignore"
+                dur="10s" repeatCount="indefinite" />
+          </linearGradient>
+       </defs>
+       <rect fill='url(#a)' width='100%' height='100%' />
+       <rect fill='url(#b)' width='100%' height='100%' />
+       <rect fill='url(#fade)' width='100%' height='100%'/>
+    </svg>
     <script src="/analytics.js"></script>
 </body>
 </html>

@@ -447,6 +447,10 @@ $(function() {
 		},
 
 		mouseOver: function(e) {
+			if(this.model.get('complete')) {
+				return;
+			}
+
 			var target = $(e.currentTarget);
 			var endX = target.attr('data-x');
 			var endY = target.attr('data-y');
@@ -455,6 +459,9 @@ $(function() {
 
 			$('td.hover').removeClass('hover');
 			$('td.hoverLight').removeClass('hoverLight');
+
+			$('td.key[data-x=' + endX + ']').addClass('hoverLight');
+			$('td.key[data-y=' + endY + ']').addClass('hoverLight');
 
 			if(this.mouseMode === 0) {
 				$('td.cell[data-y=' + endY + ']').addClass('hoverLight');
@@ -664,7 +671,7 @@ $(function() {
 						if(hintsX[i][j] < 0) {
 							hintsXText[i][j] = '<em>' + Math.abs(hintsX[i][j]) + '</em>';
 						} else {
-							hintsXText[i][j] = hintsX[i][j];
+							hintsXText[i][j] = '<strong>' + hintsX[i][j] + '</strong>';
 						}
 					}
 				}
@@ -674,7 +681,7 @@ $(function() {
 						if(hintsY[i][j] < 0) {
 							hintsYText[i][j] = '<em>' + Math.abs(hintsY[i][j]) + '</em>';
 						} else {
-							hintsYText[i][j] = hintsY[i][j];
+							hintsYText[i][j] = '<strong>' +hintsY[i][j] + '</strong>';
 						}
 					}
 				}
@@ -682,13 +689,13 @@ $(function() {
 				for(var i = 0; i < hintsX.length; i++) {
 					hintsXText[i] = [];
 					for(var j = 0; j < hintsX[i].length; j++) {
-						hintsXText[i][j] = Math.abs(hintsX[i][j]);
+						hintsXText[i][j] = '<strong>' +Math.abs(hintsX[i][j]) + '</strong>';
 					}
 				}
 				for(var i = 0; i < hintsY.length; i++) {
 					hintsYText[i] = [];
 					for(var j = 0; j < hintsY[i].length; j++) {
-						hintsYText[i][j] = Math.abs(hintsY[i][j]);
+						hintsYText[i][j] = '<strong>' +Math.abs(hintsY[i][j]) + '</strong>';
 					}
 				}
 			}
@@ -696,11 +703,11 @@ $(function() {
 			var html = '<table>';
 			html += '<tr><td class="key"></td>';
 			for(var i = 0; i < state[0].length; i++) {
-				html += '<td class="key top">' + hintsYText[i].join('<br/>') + '</td>';
+				html += '<td class="key top" data-y="' + i + '">' + hintsYText[i].join('<br/>') + '</td>';
 			}
 			html += '</tr>';
 			for(var i = 0; i < state.length; i++) {
-				html += '<tr><td class="key left">' + hintsXText[i].join('&nbsp;') + '</td>';
+				html += '<tr><td class="key left" data-x="' + i + '">' + hintsXText[i].join('') + '</td>';
 				for(var j = 0; j < state[0].length; j++) {
 					html += '<td class="cell s' + Math.abs(state[i][j]) + '" data-x="' + i + '" data-y="' + j + '">';
 					if(state[i][j] < 0) {

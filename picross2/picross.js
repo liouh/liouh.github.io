@@ -464,6 +464,10 @@ $(function() {
 		},
 
 		mouseOver: function(e) {
+			if(this.model.get('complete')) {
+				return;
+			}
+
 			var target = $(e.currentTarget);
 			var endX = target.attr('data-x');
 			var endY = target.attr('data-y');
@@ -472,6 +476,9 @@ $(function() {
 
 			$('td.hover').removeClass('hover');
 			$('td.hoverLight').removeClass('hoverLight');
+
+			$('td.key[data-x=' + endX + ']').addClass('hoverLight');
+			$('td.key[data-y=' + endY + ']').addClass('hoverLight');
 
 			if(this.mouseMode === 0) {
 				$('td.cell[data-y=' + endY + ']').addClass('hoverLight');
@@ -698,11 +705,11 @@ $(function() {
 			var html = '<table>';
 			html += '<tr><td class="key"></td>';
 			for(var i = 0; i < state[0].length; i++) {
-				html += '<td class="key top">' + hintsYText[i].join('<br/>') + '</td>';
+				html += '<td class="key top" data-y="' + i + '">' + hintsYText[i].join('<br/>') + '</td>';
 			}
 			html += '</tr>';
 			for(var i = 0; i < state.length; i++) {
-				html += '<tr><td class="key left">' + hintsXText[i].join('') + '</td>';
+				html += '<tr><td class="key left" data-x="' + i + '">' + hintsXText[i].join('') + '</td>';
 				for(var j = 0; j < state[0].length; j++) {
 					html += '<td class="cell s' + Math.abs(state[i][j]) + '" data-x="' + i + '" data-y="' + j + '"></td>';
 				}

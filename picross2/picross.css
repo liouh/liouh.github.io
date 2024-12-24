@@ -241,8 +241,12 @@ body.dark #puzzle td.key em {
 	vertical-align: middle;
 }
 
-#puzzle td.cell.hoverLight {
+#puzzle td.cell.hoverLight, #puzzle td.key.hoverLight {
 	background-color: #F7F2E0;
+}
+
+body.dark #puzzle td.key.hoverLight {
+	background-color: #333;
 }
 
 #puzzle td.cell.hover {

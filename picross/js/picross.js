@@ -17,7 +17,7 @@ $(function() {
 				hintsY: [],
 				mistakes: 0,
 				guessed: 0,
-				total: 100,
+				total: 0,
 				complete: false,
 				seed: 0,
 				darkMode: false,
@@ -50,45 +50,47 @@ $(function() {
 		},
 
 		resume: function() {
-
 			if(!localStorageSupport() || localStorage['picross.saveVersion'] != saveVersion) {
 				this.reset();
 				return;
 			}
 
-			var dimensionWidth = JSON.parse(localStorage['picross.dimensionWidth']);
-			var dimensionHeight = JSON.parse(localStorage['picross.dimensionHeight']);
-			var solution = JSON.parse(localStorage['picross.solution']);
-			var state = JSON.parse(localStorage['picross.state']);
-			var hintsX = JSON.parse(localStorage['picross.hintsX']);
-			var hintsY = JSON.parse(localStorage['picross.hintsY']);
-			var mistakes = JSON.parse(localStorage['picross.mistakes']);
-			var guessed = JSON.parse(localStorage['picross.guessed']);
-			var total = JSON.parse(localStorage['picross.total']);
-			var complete = JSON.parse(localStorage['picross.complete']);
-			var seed = JSON.parse(localStorage['picross.seed']);
-			var darkMode = JSON.parse(localStorage['picross.darkMode']);
-			var easyMode = JSON.parse(localStorage['picross.easyMode']);
+			try {
+				var dimensionWidth = JSON.parse(localStorage['picross.dimensionWidth']);
+				var dimensionHeight = JSON.parse(localStorage['picross.dimensionHeight']);
+				var solution = JSON.parse(localStorage['picross.solution']);
+				var state = JSON.parse(localStorage['picross.state']);
+				var hintsX = JSON.parse(localStorage['picross.hintsX']);
+				var hintsY = JSON.parse(localStorage['picross.hintsY']);
+				var mistakes = JSON.parse(localStorage['picross.mistakes']);
+				var guessed = JSON.parse(localStorage['picross.guessed']);
+				var total = JSON.parse(localStorage['picross.total']);
+				var complete = JSON.parse(localStorage['picross.complete']);
+				var seed = JSON.parse(localStorage['picross.seed']);
+				var darkMode = JSON.parse(localStorage['picross.darkMode']);
+				var easyMode = JSON.parse(localStorage['picross.easyMode']);
 
-			this.set({
-				dimensionWidth: dimensionWidth,
-				dimensionHeight: dimensionHeight,
-				solution: solution,
-				state: state,
-				hintsX: hintsX,
-				hintsY: hintsY,
-				mistakes: mistakes,
-				guessed: guessed,
-				total: total,
-				complete: complete,
-				seed: seed,
-				darkMode: darkMode,
-				easyMode: easyMode
-			});
+				this.set({
+					dimensionWidth: parseInt(dimensionWidth),
+					dimensionHeight: parseInt(dimensionHeight),
+					solution: solution,
+					state: state,
+					hintsX: hintsX,
+					hintsY: hintsY,
+					mistakes: mistakes,
+					guessed: guessed,
+					total: total,
+					complete: complete,
+					seed: seed,
+					darkMode: darkMode,
+					easyMode: easyMode
+				});
+			} catch(e) {
+				this.reset();
+			}
 		},
 
 		reset: function(customSeed) {
-
 			var seed = customSeed;
 			if(seed === undefined) {
 				seed = '' + new Date().getTime();
@@ -161,8 +163,7 @@ $(function() {
 				total: total,
 				complete: false,
 				seed: seed
-			}, {silent: true});
-			this.trigger('change');
+			});
 		},
 
 		guess: function(x, y, guess) {
@@ -296,8 +297,7 @@ $(function() {
 				hintsY: hintsY,
 				mistakes: mistakes,
 				guessed: guessed
-			}, {silent: true});
-			this.trigger('change');
+			});
 		}
 
 	});
@@ -380,8 +380,8 @@ $(function() {
 			var dimensions = $('#dimensions').val();
 			dimensions = dimensions.split('x');
 			this.model.set({
-				dimensionWidth: dimensions[0],
-				dimensionHeight: dimensions[1]
+				dimensionWidth: parseInt(dimensions[0]),
+				dimensionHeight: parseInt(dimensions[1])
 			});
 		},
 
@@ -392,6 +392,7 @@ $(function() {
 			$('#mistakes').removeClass('error');
 			this.changeDimensions();
 			this.model.reset(customSeed);
+			this.checkCompletion();
 			this.render();
 			this.showSeed();
 		},
@@ -641,7 +642,12 @@ $(function() {
 				$('#mistakes').addClass('error');
 			}
 
+			var guessed = this.model.get('guessed');
+			var total = this.model.get('total');
 			var progress = this.model.get('guessed') / this.model.get('total') * 100;
+			if (guessed === 0 && total === 0) {
+				progress = 100;
+			}
 			$('#progress').text(progress.toFixed(1) + '%');
 
 			if(this.model.get('darkMode')) {

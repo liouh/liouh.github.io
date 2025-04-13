@@ -15,7 +15,7 @@ $(function() {
 				hintsX: [],
 				hintsY: [],
 				guessed: 0,
-				total: 100,
+				total: 0,
 				complete: false,
 				perfect: false,
 				seed: 0,
@@ -48,43 +48,45 @@ $(function() {
 		},
 
 		resume: function() {
-
 			if(!localStorageSupport() || localStorage['picross2.saveVersion'] != saveVersion) {
 				this.reset();
 				return;
 			}
 
-			var dimensionWidth = JSON.parse(localStorage['picross2.dimensionWidth']);
-			var dimensionHeight = JSON.parse(localStorage['picross2.dimensionHeight']);
-			var state = JSON.parse(localStorage['picross2.state']);
-			var hintsX = JSON.parse(localStorage['picross2.hintsX']);
-			var hintsY = JSON.parse(localStorage['picross2.hintsY']);
-			var guessed = JSON.parse(localStorage['picross2.guessed']);
-			var total = JSON.parse(localStorage['picross2.total']);
-			var complete = JSON.parse(localStorage['picross2.complete']);
-			var perfect = JSON.parse(localStorage['picross2.perfect']);
-			var seed = JSON.parse(localStorage['picross2.seed']);
-			var darkMode = JSON.parse(localStorage['picross2.darkMode']);
-			var easyMode = JSON.parse(localStorage['picross2.easyMode']);
+			try {
+				var dimensionWidth = parseInt(JSON.parse(localStorage['picross2.dimensionWidth']));
+				var dimensionHeight = parseInt(JSON.parse(localStorage['picross2.dimensionHeight']));
+				var state = JSON.parse(localStorage['picross2.state']);
+				var hintsX = JSON.parse(localStorage['picross2.hintsX']);
+				var hintsY = JSON.parse(localStorage['picross2.hintsY']);
+				var guessed = JSON.parse(localStorage['picross2.guessed']);
+				var total = JSON.parse(localStorage['picross2.total']);
+				var complete = JSON.parse(localStorage['picross2.complete']);
+				var perfect = JSON.parse(localStorage['picross2.perfect']);
+				var seed = JSON.parse(localStorage['picross2.seed']);
+				var darkMode = JSON.parse(localStorage['picross2.darkMode']);
+				var easyMode = JSON.parse(localStorage['picross2.easyMode']);
 
-			this.set({
-				dimensionWidth: dimensionWidth,
-				dimensionHeight: dimensionHeight,
-				state: state,
-				hintsX: hintsX,
-				hintsY: hintsY,
-				guessed: guessed,
-				total: total,
-				complete: complete,
-				perfect: perfect,
-				seed: seed,
-				darkMode: darkMode,
-				easyMode: easyMode
-			});
+				this.set({
+					dimensionWidth: dimensionWidth,
+					dimensionHeight: dimensionHeight,
+					state: state,
+					hintsX: hintsX,
+					hintsY: hintsY,
+					guessed: guessed,
+					total: total,
+					complete: complete,
+					perfect: perfect,
+					seed: seed,
+					darkMode: darkMode,
+					easyMode: easyMode
+				});
+			} catch(e) {
+				this.reset();
+			}
 		},
 
 		reset: function(customSeed) {
-
 			var seed = customSeed;
 			if(seed === undefined) {
 				seed = '' + new Date().getTime();
@@ -118,8 +120,7 @@ $(function() {
 				complete: false,
 				perfect: false,
 				seed: seed
-			}, {silent: true});
-			this.trigger('change');
+			});
 		},
 
 		getHintsX: function(solution) {
@@ -192,7 +193,7 @@ $(function() {
 			this.set({
 				state: state,
 				guessed: guessed
-			}, {silent: true});
+			});
 
 			this.updateCrossouts(state, x, y);
 		},
@@ -274,8 +275,7 @@ $(function() {
 			this.set({
 				hintsX: hintsX,
 				hintsY: hintsY
-			}, {silent: true});
-			this.trigger('change');
+			});
 		},
 
 		isPerfect: function() {
@@ -318,7 +318,6 @@ $(function() {
 	});
 
 	var PuzzleView = Backbone.View.extend({
-
 		el: $("body"),
 
 		events: function() {
@@ -397,8 +396,8 @@ $(function() {
 			var dimensions = $('#dimensions').val();
 			dimensions = dimensions.split('x');
 			this.model.set({
-				dimensionWidth: dimensions[0],
-				dimensionHeight: dimensions[1]
+				dimensionWidth: parseInt(dimensions[0]),
+				dimensionHeight: parseInt(dimensions[1])
 			});
 		},
 
@@ -557,7 +556,6 @@ $(function() {
 			}
 			this.mouseMode = 0;
 			this.render();
-			this.checkCompletion();
 		},
 
 		clickArea: function(endX, endY, guess) {
@@ -616,13 +614,6 @@ $(function() {
 			if(Math.abs(this.mouseEndX - this.mouseStartX) < 10 && Math.abs(this.mouseEndY - this.mouseStartY) < 10) {
 				this.model.guess(target.attr('data-x'), target.attr('data-y'), 2);
 				this.render();
-				this.checkCompletion();
-			}
-		},
-
-		checkCompletion: function() {
-			if (this.model.isPerfect()) {
-				this.solve();
 			}
 		},
 
@@ -642,7 +633,12 @@ $(function() {
 		},
 
 		render: function() {
+			var guessed = this.model.get('guessed');
+			var total = this.model.get('total');
 			var progress = this.model.get('guessed') / this.model.get('total') * 100;
+			if (guessed === 0 && total === 0) {
+				progress = 100;
+			}
 			$('#progress').text(progress.toFixed(1) + '%');
 
 			if(this.model.get('darkMode')) {

@@ -49,7 +49,7 @@ a:hover {
 .footer {
 	clear: both;
 	width: 800px;
-	margin: 0 auto;
+	margin: 50px auto 0;
 	border-top: 1px dashed #ccc;
 	padding: 15px 0 20px;
 	text-align: center;
@@ -67,7 +67,6 @@ h1 {
 
 .controls {
 	float: left;
-	height: 680px;
 	width: 150px;
 }
 

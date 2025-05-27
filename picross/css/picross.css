@@ -173,9 +173,20 @@ body.dark #mistakes.error {
 	color: #C00;
 }
 
-#puzzle {
+#puzzle, #solutions {
 	float: right;
 	width: 600px;
+}
+
+#solutions {
+	color: #999;
+	line-height: 1.5;
+	margin-top: 30px;
+	text-align: center;
+}
+
+#puzzle table {
+	width: 100%;
 }
 
 #puzzle td {

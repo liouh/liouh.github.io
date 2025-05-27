@@ -5,7 +5,7 @@
 		<meta charset="utf-8">
 		<meta name="description" content="Randomly generated picross puzzles you can solve in your browser. Features 11 difficulty levels, dark mode, local saves, and customizable seeds. This version supports multiple correct solutions.">
 		<link rel="stylesheet" type="text/css" href="../picross/css/reset.css" />
-		<link rel="stylesheet" type="text/css" href="picross.css?20250412" />
+		<link rel="stylesheet" type="text/css" href="picross.css?20250526" />
 	</head>
 	<body>
 		<div class="container">
@@ -19,16 +19,16 @@
 					<div class="custom"></div>
 					<button id="solve">Solve Puzzle</button>
 					<div class="custom">
-						<h5><a href="http://liouh.com/picross">Back to original version</a></h5>
+						<h5><a href="http://liouh.com/picross">Enable live validation</a></h5>
 					</div>
 				</div>
 				<div class="control-group">
 					<h3>Settings</h3>
 					<div class="control-section">
-						<input type="checkbox" id="dark" /><label for="dark"> Dark Mode</label><br/>
-						<input type="checkbox" id="easy" checked /><label for="easy"> Show Crossouts</label>
+						<input type="checkbox" id="dark" autocomplete="off" /><label for="dark"> Dark Mode</label><br/>
+						<input type="checkbox" id="easy" autocomplete="off" checked /><label for="easy"> Show Crossouts</label>
 					</div>
-					<select id="dimensions">
+					<select id="dimensions" autocomplete="off">
 						<option value="5x5">5x5</option>
 						<option value="10x5">10x5</option>
 						<option value="10x10">10x10</option>
@@ -67,7 +67,7 @@
 		<script type="text/javascript" src="../picross/js/underscore.js"></script>
 		<script type="text/javascript" src="../picross/js/backbone.js"></script>
 		<script type="text/javascript" src="../picross/js/seedrandom.js"></script>
-		<script type="text/javascript" src="picross.js?20250412"></script>
+		<script type="text/javascript" src="picross.js?20250526"></script>
 		<script type="text/javascript" src="/analytics.js"></script>
 	</body>
 </html>

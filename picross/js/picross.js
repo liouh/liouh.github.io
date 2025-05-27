@@ -88,6 +88,8 @@ $(function() {
 			} catch(e) {
 				this.reset();
 			}
+
+			this.checkForMultipleSolutions();
 		},
 
 		reset: function(customSeed) {
@@ -162,8 +164,11 @@ $(function() {
 				guessed: 0,
 				total: total,
 				complete: false,
-				seed: seed
+				seed: seed,
+				hasMultipleSolutions: null
 			});
+
+			this.checkForMultipleSolutions();
 		},
 
 		guess: function(x, y, guess) {
@@ -298,6 +303,58 @@ $(function() {
 				mistakes: mistakes,
 				guessed: guessed
 			});
+			// trigger the change event manually to save empty guesses
+			// since in-place array updates won't trigger the change event
+			this.trigger('change');
+
+			this.checkForMultipleSolutions();
+		},
+
+		// Calculate multiple solutions in a Web Worker
+		checkForMultipleSolutions: function() {
+			if (!webWorkerSupport) {
+				return;
+			}
+
+			const guessed = this.get('guessed');
+			const total = this.get('total');
+			const hasMultipleSolutions = this.get('hasMultipleSolutions');
+			if (total - guessed > 30) {
+				// too many squares remaining to calculate
+				this.set({hasMultipleSolutions: -1});
+				return;
+			} else if(hasMultipleSolutions === 0) {
+				// already unique
+				return;
+			} else if(hasMultipleSolutions < 0) {
+				this.set({hasMultipleSolutions: null});
+			}
+
+			const hintsX = this.get('hintsX');
+			const hintsY = this.get('hintsY');
+			const height = this.get('dimensionHeight');
+			const width = this.get('dimensionWidth');
+			const seed = this.get('seed');
+			const state = this.get('state');
+
+			try {
+				if(this.worker) {
+					this.worker.terminate();
+				}
+				this.worker = new Worker('js/worker.js');
+				this.worker.onmessage = (e) => {
+					const {calculatedSeed, calculatedHeight, calculatedWidth, result} = e.data;
+					if(calculatedSeed === seed && calculatedHeight === height && calculatedWidth === width) {
+						// console.log(seed, height, width, result);
+						this.set({hasMultipleSolutions: result ? 1 : 0});
+					}
+				}
+				this.worker.postMessage({
+					hintsX, hintsY, height, width, seed, state
+				});
+			} catch (e) {
+				this.set({hasMultipleSolutions: -1});
+			}
 		}
 
 	});
@@ -348,6 +405,7 @@ $(function() {
 		mouseMode: 0,
 
 		initialize: function() {
+			this.model.on('change', this.render, this);
 			this.model.resume();
 			$('#dimensions').val(this.model.get('dimensionWidth') + 'x' + this.model.get('dimensionHeight'));
 			if(this.model.get('darkMode')) {
@@ -361,19 +419,16 @@ $(function() {
 				$('#easy').removeAttr('checked');
 			}
 			this.render();
-			this.showSeed();
 		},
 
 		changeDarkMode: function(e) {
 			var darkMode = $('#dark').attr('checked') !== undefined;
 			this.model.set({darkMode: darkMode});
-			this.render();
 		},
 
 		changeEasyMode: function(e) {
 			var easyMode = $('#easy').attr('checked') !== undefined;
 			this.model.set({easyMode: easyMode});
-			this.render();
 		},
 
 		changeDimensions: function(e) {
@@ -393,8 +448,6 @@ $(function() {
 			this.changeDimensions();
 			this.model.reset(customSeed);
 			this.checkCompletion();
-			this.render();
-			this.showSeed();
 		},
 
 		newGame: function(e) {
@@ -413,11 +466,6 @@ $(function() {
 			}
 		},
 
-		showSeed: function() {
-			var seed = this.model.get('seed');
-			$('#seed').val(seed);
-		},
-
 		clickStart: function(e) {
 			if(this.model.get('complete')) {
 				return;
@@ -427,7 +475,6 @@ $(function() {
 
 			if(this.mouseMode != 0 || target.attr('data-x') === undefined || target.attr('data-y') === undefined) {
 				this.mouseMode = 0;
-				this.render();
 				return;
 			}
 
@@ -541,7 +588,6 @@ $(function() {
 			}
 			this.mouseMode = 0;
 			this.checkCompletion();
-			this.render();
 		},
 
 		clickArea: function(endX, endY, guess) {
@@ -576,7 +622,6 @@ $(function() {
 			var that = this;
 			this.mouseMode = setTimeout(function() {
 				that.model.guess(target.attr('data-x'), target.attr('data-y'), 1);
-				that.render();
 			}, 750);
 		},
 
@@ -600,7 +645,6 @@ $(function() {
 			if(Math.abs(this.mouseEndX - this.mouseStartX) < 10 && Math.abs(this.mouseEndY - this.mouseStartY) < 10) {
 				this.model.guess(target.attr('data-x'), target.attr('data-y'), 2);
 				this.checkCompletion();
-				this.render();
 			}
 		},
 
@@ -636,6 +680,9 @@ $(function() {
 		},
 
 		render: function() {
+			var seed = this.model.get('seed');
+			$('#seed').val(seed);
+
 			var mistakes = this.model.get('mistakes');
 			$('#mistakes').text(mistakes);
 			if(mistakes > 0) {
@@ -733,6 +780,19 @@ $(function() {
 				height: side,
 				fontSize: Math.ceil(200 / state[0].length)
 			});
+
+			if (webWorkerSupport()) {
+				var hasMultipleSolutions = this.model.get('hasMultipleSolutions');
+				if(hasMultipleSolutions === 1) {
+					$('#solutions').html('⚠️ This board has more than one solution.<br/>If you feel stuck, <a href="http://liouh.com/picross" target="_blank">open this page in a new browser tab</a> and guess all possibilities.');
+				} else if(hasMultipleSolutions === 0) {
+					$('#solutions').html('✅ This board has a unique solution.');
+				} else if (hasMultipleSolutions === -1) {
+					$('#solutions').html('Solve more of the puzzle to check for multiple solutions.');
+				} else {
+					$('#solutions').html('Calculating unique solution...');
+				}
+			}
 		}
 	});
 
@@ -746,4 +806,8 @@ function localStorageSupport() {
 	} catch (e) {
 		return false;
 	}
+}
+
+function webWorkerSupport() {
+	return !!window.Worker;
 }

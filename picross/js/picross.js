@@ -441,12 +441,12 @@ $(function() {
 		},
 
 		_newGame: function(customSeed) {
+			this.changeDimensions();
+			this.model.reset(customSeed);
 			$('#puzzle').removeClass('complete');
 			$('#puzzle').removeClass('perfect');
 			$('#progress').removeClass('done');
 			$('#mistakes').removeClass('error');
-			this.changeDimensions();
-			this.model.reset(customSeed);
 			this.checkCompletion();
 		},
 

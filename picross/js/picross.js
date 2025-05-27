@@ -443,10 +443,6 @@ $(function() {
 		_newGame: function(customSeed) {
 			this.changeDimensions();
 			this.model.reset(customSeed);
-			$('#puzzle').removeClass('complete');
-			$('#puzzle').removeClass('perfect');
-			$('#progress').removeClass('done');
-			$('#mistakes').removeClass('error');
 			this.checkCompletion();
 		},
 
@@ -687,6 +683,8 @@ $(function() {
 			$('#mistakes').text(mistakes);
 			if(mistakes > 0) {
 				$('#mistakes').addClass('error');
+			} else {
+				$('#mistakes').removeClass('error');
 			}
 
 			var guessed = this.model.get('guessed');
@@ -705,10 +703,14 @@ $(function() {
 
 			if(this.model.get('complete')) {
 				$('#puzzle').addClass('complete');
-				$('#progress').addClass('done');
 				if(mistakes === 0) {
+					$('#progress').addClass('done');
 					$('#puzzle').addClass('perfect');
 				}
+			} else {
+				$('#puzzle').removeClass('complete');
+				$('#progress').removeClass('done');
+				$('#puzzle').removeClass('perfect');
 			}
 
 			var state = this.model.get('state');

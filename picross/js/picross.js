@@ -353,7 +353,7 @@ $(function() {
 					hintsX, hintsY, height, width, seed, state
 				});
 			} catch (e) {
-				this.set({hasMultipleSolutions: -1});
+				this.set({hasMultipleSolutions: -2});
 			}
 		}
 
@@ -786,11 +786,13 @@ $(function() {
 			if (webWorkerSupport()) {
 				var hasMultipleSolutions = this.model.get('hasMultipleSolutions');
 				if(hasMultipleSolutions === 1) {
-					$('#solutions').html('⚠️ This board has more than one solution.<br/>If you feel stuck, <a href="http://liouh.com/picross" target="_blank">open this page in a new browser tab</a> and guess all possibilities.');
+					$('#solutions').html('⚠️ This board has more than one solution.<br/>If you feel stuck, <a href="../picross" target="_blank">open this page in a new browser tab</a> and guess all possibilities.');
 				} else if(hasMultipleSolutions === 0) {
 					$('#solutions').html('✅ This board has a unique solution.');
 				} else if (hasMultipleSolutions === -1) {
 					$('#solutions').html('Solve more of the puzzle to check for multiple solutions.');
+				} else if (hasMultipleSolutions === -2) {
+					$('#solutions').html('');
 				} else {
 					$('#solutions').html('Calculating unique solution...');
 				}

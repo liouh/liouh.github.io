@@ -1,43 +1,84 @@
 @import url('https://fonts.googleapis.com/css?family=Open+Sans');
 
+:root {
+	--bg-gradient: radial-gradient(at 0% 0%, rgba(129, 140, 248, 0.3) 0%, transparent 65%), radial-gradient(at 100% 0%, rgba(245, 158, 11, 0.12) 0%, transparent 50%), radial-gradient(at 100% 100%, rgba(244, 63, 94, 0.1) 0%, transparent 50%), radial-gradient(at 0% 100%, rgba(59, 130, 246, 0.2) 0%, transparent 50%), #f8fafc;
+	--text-color: #333;
+	--text-hover: #000;
+	--link-color: #333;
+	--link-hover: #666;
+	--section-bg: rgba(255, 255, 255, 0.7);
+	--section-shadow: 0 1px 2px rgba(0, 0, 0, 0.2);
+	--nav-border: #999;
+	--nav-icon-color: #666;
+	--paragraph-color: #333;
+}
+
+@media (prefers-color-scheme: dark) {
+	:root {
+		--bg-gradient: radial-gradient(at 0% 0%, rgba(99, 102, 241, 0.25) 0%, transparent 65%), radial-gradient(at 100% 0%, rgba(59, 130, 246, 0.15) 0%, transparent 50%), radial-gradient(at 100% 100%, rgba(168, 85, 247, 0.15) 0%, transparent 50%), radial-gradient(at 0% 100%, rgba(20, 184, 166, 0.15) 0%, transparent 50%), #030712;
+		--text-color: #f1f5f9;
+		--text-hover: #ffffff;
+		--link-color: #cbd5e1;
+		--link-hover: #60a5fa;
+		--section-bg: rgba(30, 41, 59, 0.75);
+		--section-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.3), 0 2px 4px -1px rgba(0, 0, 0, 0.2);
+		--nav-border: #334155;
+		--nav-icon-color: #94a3b8;
+		--paragraph-color: #cbd5e1;
+	}
+}
+
+/* User light override when system is dark */
+@media (prefers-color-scheme: dark) {
+	html:has(#dark-mode-toggle:checked) {
+		--bg-gradient: radial-gradient(at 0% 0%, rgba(129, 140, 248, 0.3) 0%, transparent 65%), radial-gradient(at 100% 0%, rgba(245, 158, 11, 0.12) 0%, transparent 50%), radial-gradient(at 100% 100%, rgba(244, 63, 94, 0.1) 0%, transparent 50%), radial-gradient(at 0% 100%, rgba(59, 130, 246, 0.2) 0%, transparent 50%), #f8fafc;
+		--text-color: #333;
+		--text-hover: #000;
+		--link-color: #333;
+		--link-hover: #666;
+		--section-bg: rgba(255, 255, 255, 0.7);
+		--section-shadow: 0 1px 2px rgba(0, 0, 0, 0.2);
+		--nav-border: #999;
+		--nav-icon-color: #666;
+		--paragraph-color: #333;
+	}
+}
+
+/* User dark override when system is light */
+@media (prefers-color-scheme: light) {
+	html:has(#dark-mode-toggle:checked) {
+		--bg-gradient: radial-gradient(at 0% 0%, rgba(99, 102, 241, 0.25) 0%, transparent 65%), radial-gradient(at 100% 0%, rgba(59, 130, 246, 0.15) 0%, transparent 50%), radial-gradient(at 100% 100%, rgba(168, 85, 247, 0.15) 0%, transparent 50%), radial-gradient(at 0% 100%, rgba(20, 184, 166, 0.15) 0%, transparent 50%), #030712;
+		--text-color: #f1f5f9;
+		--text-hover: #ffffff;
+		--link-color: #cbd5e1;
+		--link-hover: #60a5fa;
+		--section-bg: rgba(30, 41, 59, 0.75);
+		--section-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.3), 0 2px 4px -1px rgba(0, 0, 0, 0.2);
+		--nav-border: #334155;
+		--nav-icon-color: #94a3b8;
+		--paragraph-color: #cbd5e1;
+	}
+}
+
 body {
-	background: #fafafa;
-	color: #333;
+	background: var(--bg-gradient);
+	background-attachment: fixed;
+	color: var(--text-color);
 	font-family: 'Open Sans';
+	transition: background 0.3s ease, color 0.3s ease;
 }
 
-/* ================================================== *\
-   background
-\* ================================================== */
-
-.bg {
-	animation:slide 5s ease-in-out infinite alternate;
-	background-image: linear-gradient(-60deg, #eee 50%, #ddd 50%);
-	bottom:0;
-	left:-50%;
-	opacity:.5;
-	position:fixed;
-	right:-50%;
-	top:0;
-	z-index:-1;
+p {
+	color: var(--paragraph-color);
+	transition: color 0.3s ease;
 }
 
-.bg2 {
-	animation-direction:alternate-reverse;
-	animation-duration:10s;
+a {
+	transition: color 0.3s ease;
 }
 
-.bg3 {
-	animation-duration:15s;
-}
-
-@keyframes slide {
-	0% {
-		transform:translateX(-25%);
-	}
-	100% {
-		transform:translateX(25%);
-	}
+.dark-mode-checkbox {
+	display: none;
 }
 
 /* ================================================== *\
@@ -52,7 +93,7 @@ nav {
 	nav {
 		position: fixed;
 		width: 200px;
-		padding: 50px;
+		padding: 50px 30px 50px 50px;
 	}
 }
 
@@ -89,31 +130,38 @@ nav h1 {
 nav .links {
 	margin: 30px 0;
 	padding: 15px 0;
-	border-top: 1px solid #999;
-	border-bottom: 1px solid #999;
+	border-top: 1px solid var(--nav-border);
+	border-bottom: 1px solid var(--nav-border);
 }
 
 nav .links a {
 	display: block;
 	padding: 5px 0;
-	color: #333;
+	color: var(--link-color);
 	text-decoration: none;
 	font-size: 20px;
 }
 
 nav .links a:hover {
-	color: #000;
+	color: var(--text-hover);
 	font-weight: bold;
 }
 
 nav .icons a {
 	margin-right: 8px;
-	color: #666;
+	color: var(--nav-icon-color);
 	font-size: 30px;
+	display: inline-block;
+	vertical-align: middle;
+	line-height: 1;
+}
+
+nav .icons a i {
+	vertical-align: middle;
 }
 
 nav .icons a:hover {
-	color: #000;
+	color: var(--text-hover);
 }
 
 /* ================================================== *\
@@ -132,13 +180,13 @@ main {
 
 section {
 	margin: 0 auto 50px;
-	box-shadow: 0 1px 2px rgba(0, 0, 0, .2);
-	background-color: #fff;
-	background-color: rgba(255, 255, 255, .7);
+	box-shadow: var(--section-shadow);
+	background-color: var(--section-bg);
 	border-top: 2px solid #737373;
 	padding: 10px 20px 20px;
 	max-width: 650px;
 	font-size: 14px;
+	transition: background-color 0.3s ease, box-shadow 0.3s ease;
 }
 
 @media (min-width: 768px) {
@@ -163,11 +211,11 @@ section h3 {
 }
 
 section a {
-	color: #333;
+	color: var(--link-color);
 }
 
 section a:hover {
-	color: #999;
+	color: var(--link-hover);
 }
 
 /* ================================================== *\
@@ -178,25 +226,25 @@ section a:hover {
 	display: none;
 }
 
-.toggle + label + div {
+.toggle+label+div {
 	display: none;
 }
 
-.toggle:checked + label {
+.toggle:checked+label {
 	display: none;
 }
 
-.toggle:checked + label + div {
+.toggle:checked+label+div {
 	display: block;
 }
 
-section .toggle + label,
+section .toggle+label,
 section label.collapse {
 	display: block;
 	padding: 15px 0;
 }
 
-section .toggle + label:before {
+section .toggle+label:before {
 	content: 'show more \00BB';
 }
 
@@ -204,11 +252,11 @@ section label.collapse:before {
 	content: '\00AB  show less';
 }
 
-section .toggle + label:hover,
+section .toggle+label:hover,
 section label.collapse:hover {
 	cursor: pointer;
 	text-decoration: underline;
-	color: #999;
+	color: var(--link-hover);
 }
 
 /* ================================================== *\
@@ -251,4 +299,51 @@ footer div {
 
 footer div .fa {
 	font-size: 21px;
+}
+
+.footer-toggle {
+	display: inline-block;
+	cursor: pointer;
+	color: inherit;
+	transition: color 0.3s ease;
+}
+
+.footer-toggle:hover {
+	color: var(--text-hover);
+}
+
+/* Default fallback (Light mode): show moon, hide sun */
+.footer-toggle .sun-icon {
+	display: none;
+}
+
+.footer-toggle .moon-icon {
+	display: inline-block;
+}
+
+html:has(#dark-mode-toggle:checked) .footer-toggle .sun-icon {
+	display: inline-block;
+}
+
+html:has(#dark-mode-toggle:checked) .footer-toggle .moon-icon {
+	display: none;
+}
+
+/* System prefers dark: show sun, hide moon */
+@media (prefers-color-scheme: dark) {
+	.footer-toggle .sun-icon {
+		display: inline-block;
+	}
+
+	.footer-toggle .moon-icon {
+		display: none;
+	}
+
+	html:has(#dark-mode-toggle:checked) .footer-toggle .sun-icon {
+		display: none;
+	}
+
+	html:has(#dark-mode-toggle:checked) .footer-toggle .moon-icon {
+		display: inline-block;
+	}
 }

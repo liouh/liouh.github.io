@@ -8,6 +8,7 @@ $(function () {
 	var PuzzleModel = Backbone.Model.extend({
 
 		defaults: function () {
+			var prefersDark = window.matchMedia && window.matchMedia('(prefers-color-scheme: dark)').matches;
 			return {
 				dimensionWidth: 10,		// default dimension width
 				dimensionHeight: 10,	// default dimension height
@@ -20,7 +21,7 @@ $(function () {
 				total: 0,
 				complete: false,
 				seed: 0,
-				darkMode: false,
+				darkMode: prefersDark,
 				easyMode: true,	// show crossouts
 				showRainbow: true
 			};
@@ -57,37 +58,64 @@ $(function () {
 				return;
 			}
 
+			function getLocalItem(key) {
+				try {
+					var val = localStorage[key];
+					if (val === undefined || val === null) {
+						return undefined;
+					}
+					return JSON.parse(val);
+				} catch (e) {
+					return undefined;
+				}
+			}
+
 			try {
-				var dimensionWidth = JSON.parse(localStorage['picross.dimensionWidth']);
-				var dimensionHeight = JSON.parse(localStorage['picross.dimensionHeight']);
-				var solution = JSON.parse(localStorage['picross.solution']);
-				var state = JSON.parse(localStorage['picross.state']);
-				var hintsX = JSON.parse(localStorage['picross.hintsX']);
-				var hintsY = JSON.parse(localStorage['picross.hintsY']);
-				var mistakes = JSON.parse(localStorage['picross.mistakes']);
-				var guessed = JSON.parse(localStorage['picross.guessed']);
-				var total = JSON.parse(localStorage['picross.total']);
-				var complete = JSON.parse(localStorage['picross.complete']);
-				var seed = JSON.parse(localStorage['picross.seed']);
-				var darkMode = JSON.parse(localStorage['picross.darkMode']);
-				var easyMode = JSON.parse(localStorage['picross.easyMode']);
-				var showRainbow = localStorage['picross.showRainbow'] !== undefined ? JSON.parse(localStorage['picross.showRainbow']) : true;
+				var keys = [
+					'dimensionWidth', 'dimensionHeight', 'solution', 'state',
+					'hintsX', 'hintsY', 'mistakes', 'guessed', 'total', 'complete', 'seed',
+					'darkMode', 'easyMode', 'showRainbow'
+				];
+				var settings = ['darkMode', 'easyMode', 'showRainbow'];
+				var loaded = {};
+
+				for (var i = 0; i < keys.length; i++) {
+					var key = keys[i];
+					var isSetting = settings.indexOf(key) !== -1;
+					var val = getLocalItem('picross.' + key);
+					
+					if (val === undefined && !isSetting) {
+						throw new Error('Crucial save data corrupt or missing: ' + key);
+					}
+					loaded[key] = val;
+				}
+
+				// Apply settings defaults if they were undefined
+				if (loaded.darkMode === undefined) {
+					loaded.darkMode = window.matchMedia && window.matchMedia('(prefers-color-scheme: dark)').matches;
+				}
+				if (loaded.easyMode === undefined) {
+					loaded.easyMode = true;
+				}
+				if (loaded.showRainbow === undefined) {
+					loaded.showRainbow = true;
+				}
 
 				this.set({
-					dimensionWidth: parseInt(dimensionWidth),
-					dimensionHeight: parseInt(dimensionHeight),
-					solution: solution,
-					state: state,
-					hintsX: hintsX,
-					hintsY: hintsY,
-					mistakes: mistakes,
-					guessed: guessed,
-					total: total,
-					complete: complete,
-					seed: seed,
-					darkMode: darkMode,
-					easyMode: easyMode,
-					showRainbow: showRainbow
+					dimensionWidth: parseInt(loaded.dimensionWidth),
+					dimensionHeight: parseInt(loaded.dimensionHeight),
+					solution: loaded.solution,
+					state: loaded.state,
+					hintsX: loaded.hintsX,
+					hintsY: loaded.hintsY,
+					mistakes: loaded.mistakes,
+					guessed: loaded.guessed,
+					total: loaded.total,
+					complete: loaded.complete,
+					seed: loaded.seed,
+					darkMode: loaded.darkMode,
+					easyMode: loaded.easyMode,
+					showRainbow: loaded.showRainbow
 				});
 			} catch (e) {
 				this.reset();

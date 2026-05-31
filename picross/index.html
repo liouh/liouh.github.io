@@ -7,7 +7,7 @@
 	<meta name="description"
 		content="Randomly generated picross puzzles you can solve in your browser. Features 11 difficulty levels, dark mode, local saves, and customizable seeds.">
 	<link rel="stylesheet" type="text/css" href="css/reset.css" />
-	<link rel="stylesheet" type="text/css" href="css/picross.css?20250526" />
+	<link rel="stylesheet" type="text/css" href="css/picross.css?20260531" />
 </head>
 
 <body>
@@ -28,11 +28,6 @@
 			</div>
 			<div class="control-group">
 				<h3>Settings</h3>
-				<div class="control-section">
-					<input type="checkbox" id="dark" autocomplete="off" /><label for="dark"> Dark Mode</label><br />
-					<input type="checkbox" id="easy" autocomplete="off" checked /><label for="easy"> Show
-						Crossouts</label>
-				</div>
 				<select id="dimensions" autocomplete="off">
 					<option value="5x5">5x5</option>
 					<option value="10x5">10x5</option>
@@ -46,14 +41,21 @@
 					<option value="30x25">30x25</option>
 					<option value="30x30">30x30</option>
 				</select>
-				<span>Grid Size</span>
+				<span>Grid size</span>
+				<div class="control-section">
+					<input type="checkbox" id="dark" autocomplete="off" /><label for="dark"> Dark mode</label><br />
+					<input type="checkbox" id="easy" autocomplete="off" checked /><label for="easy"> Show
+						crossouts</label><br />
+					<input type="checkbox" id="rainbow" autocomplete="off" checked /><label for="rainbow"> Perfect
+						solve 🌈</label>
+				</div>
 			</div>
 			<div class="control-group">
 				<button id="new">New Game &raquo;</button>
 				<div class="custom">
-					<h5>Current Seed</h5>
+					<h5>Current seed</h5>
 					<input type="text" id="seed" readonly="readonly" />
-					<h5>Custom Seed</h5>
+					<h5>Custom seed</h5>
 					<form id="customForm">
 						<input type="text" id="customSeed" />
 						<button type="submit" id="customGame">Custom Game</button>

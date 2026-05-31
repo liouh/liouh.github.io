@@ -21,7 +21,8 @@ $(function () {
 				complete: false,
 				seed: 0,
 				darkMode: false,
-				easyMode: true	// show crossouts
+				easyMode: true,	// show crossouts
+				showRainbow: true
 			};
 		},
 
@@ -46,6 +47,7 @@ $(function () {
 				localStorage['picross.seed'] = JSON.stringify(this.get('seed'));
 				localStorage['picross.darkMode'] = JSON.stringify(this.get('darkMode'));
 				localStorage['picross.easyMode'] = JSON.stringify(this.get('easyMode'));
+				localStorage['picross.showRainbow'] = JSON.stringify(this.get('showRainbow'));
 			}
 		},
 
@@ -69,6 +71,7 @@ $(function () {
 				var seed = JSON.parse(localStorage['picross.seed']);
 				var darkMode = JSON.parse(localStorage['picross.darkMode']);
 				var easyMode = JSON.parse(localStorage['picross.easyMode']);
+				var showRainbow = localStorage['picross.showRainbow'] !== undefined ? JSON.parse(localStorage['picross.showRainbow']) : true;
 
 				this.set({
 					dimensionWidth: parseInt(dimensionWidth),
@@ -83,7 +86,8 @@ $(function () {
 					complete: complete,
 					seed: seed,
 					darkMode: darkMode,
-					easyMode: easyMode
+					easyMode: easyMode,
+					showRainbow: showRainbow
 				});
 			} catch (e) {
 				this.reset();
@@ -369,6 +373,7 @@ $(function () {
 					"click #new": "newGame",
 					"change #dark": "changeDarkMode",
 					"change #easy": "changeEasyMode",
+					"change #rainbow": "changeShowRainbow",
 					"mousedown": "clickStart",
 					"mouseover td.cell": "mouseOver",
 					"mouseout td.cell": "mouseOut",
@@ -386,6 +391,7 @@ $(function () {
 					"click #new": "newGame",
 					"change #dark": "changeDarkMode",
 					"change #easy": "changeEasyMode",
+					"change #rainbow": "changeShowRainbow",
 					"mousedown": "clickStart",
 					"mouseover td.cell": "mouseOver",
 					"mouseout td.cell": "mouseOut",
@@ -418,6 +424,11 @@ $(function () {
 			} else {
 				$('#easy').removeAttr('checked');
 			}
+			if (this.model.get('showRainbow')) {
+				$('#rainbow').attr('checked', 'checked');
+			} else {
+				$('#rainbow').removeAttr('checked');
+			}
 			this.render();
 		},
 
@@ -429,6 +440,11 @@ $(function () {
 		changeEasyMode: function (e) {
 			var easyMode = $('#easy').attr('checked') !== undefined;
 			this.model.set({ easyMode: easyMode });
+		},
+
+		changeShowRainbow: function (e) {
+			var showRainbow = $('#rainbow').attr('checked') !== undefined;
+			this.model.set({ showRainbow: showRainbow });
 		},
 
 		changeDimensions: function (e) {
@@ -705,7 +721,11 @@ $(function () {
 				$('#puzzle').addClass('complete');
 				if (mistakes === 0) {
 					$('#progress').addClass('done');
-					$('#puzzle').addClass('perfect');
+					if (this.model.get('showRainbow')) {
+						$('#puzzle').addClass('perfect');
+					} else {
+						$('#puzzle').removeClass('perfect');
+					}
 				}
 			} else {
 				$('#puzzle').removeClass('complete');

@@ -168,9 +168,17 @@ body.dark .custom h5 {
 	color: #080;
 }
 
-#puzzle {
+#puzzle,
+#solutions {
 	float: right;
 	width: 600px;
+}
+
+#solutions {
+	color: #999;
+	line-height: 1.5;
+	margin-top: 30px;
+	text-align: center;
 }
 
 #puzzle table {

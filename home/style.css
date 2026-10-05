@@ -310,8 +310,12 @@ section label.collapse:hover {
 footer {
 	text-align: center;
 	padding: 0 20px;
-	font-size: 42px;
-	color: var(--nav-icon-color);
 	user-select: none;
 	-webkit-user-select: none;
+}
+
+footer p {
+	font-size: 42px;
+	color: var(--nav-icon-color);
+	margin: 0;
 }

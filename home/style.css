@@ -104,6 +104,10 @@ nav .avatar {
 	cursor: pointer;
 	position: relative;
 	border-radius: 50%;
+	-webkit-tap-highlight-color: transparent;
+	outline: none;
+	user-select: none;
+	-webkit-user-select: none;
 }
 
 nav .avatar img {
@@ -304,4 +308,6 @@ footer {
 	padding: 0 20px;
 	font-size: 42px;
 	color: var(--nav-icon-color);
+	user-select: none;
+	-webkit-user-select: none;
 }

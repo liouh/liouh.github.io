@@ -1,12 +1,12 @@
 @import url('https://fonts.googleapis.com/css?family=Open+Sans');
 
 :root {
-	--bg-gradient: radial-gradient(at 0% 0%, rgba(129, 140, 248, 0.3) 0%, transparent 65%), radial-gradient(at 100% 0%, rgba(245, 158, 11, 0.12) 0%, transparent 50%), radial-gradient(at 100% 100%, rgba(244, 63, 94, 0.1) 0%, transparent 50%), radial-gradient(at 0% 100%, rgba(59, 130, 246, 0.2) 0%, transparent 50%), #f8fafc;
+	--bg-gradient: radial-gradient(circle at 10% 20%, rgba(217, 119, 6, 0.04), transparent 55%), radial-gradient(circle at 90% 10%, rgba(37, 99, 235, 0.04), transparent 50%), linear-gradient(180deg, #ffffff 0%, #f1f5f9 100%);
 	--text-color: #333;
 	--text-hover: #000;
 	--link-color: #333;
-	--link-hover: #666;
-	--section-bg: rgba(255, 255, 255, 0.7);
+	--link-hover: #2563eb;
+	--section-bg: rgba(255, 255, 255, 0.5);
 	--section-shadow: 0 1px 2px rgba(0, 0, 0, 0.2);
 	--nav-border: #999;
 	--nav-icon-color: #666;
@@ -15,28 +15,28 @@
 
 @media (prefers-color-scheme: dark) {
 	:root {
-		--bg-gradient: radial-gradient(at 0% 0%, rgba(99, 102, 241, 0.25) 0%, transparent 65%), radial-gradient(at 100% 0%, rgba(59, 130, 246, 0.15) 0%, transparent 50%), radial-gradient(at 100% 100%, rgba(168, 85, 247, 0.15) 0%, transparent 50%), radial-gradient(at 0% 100%, rgba(20, 184, 166, 0.15) 0%, transparent 50%), #030712;
-		--text-color: #f1f5f9;
+		--bg-gradient: radial-gradient(circle at 10% 20%, #b24a2a1f, #0000 55%), radial-gradient(circle at 90% 10%, #304f6d26, #0000 50%), linear-gradient(#181614 0%, #13110f 100%);
+		--text-color: #f5f5f4;
 		--text-hover: #ffffff;
-		--link-color: #cbd5e1;
-		--link-hover: #60a5fa;
-		--section-bg: rgba(30, 41, 59, 0.75);
+		--link-color: #d6d3d1;
+		--link-hover: #e07a5f;
+		--section-bg: rgba(41, 37, 36, 0.75);
 		--section-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.3), 0 2px 4px -1px rgba(0, 0, 0, 0.2);
-		--nav-border: #334155;
-		--nav-icon-color: #94a3b8;
-		--paragraph-color: #cbd5e1;
+		--nav-border: #44403c;
+		--nav-icon-color: #a8a29e;
+		--paragraph-color: #d6d3d1;
 	}
 }
 
 /* User light override when system is dark */
 @media (prefers-color-scheme: dark) {
 	html:has(#dark-mode-toggle:checked) {
-		--bg-gradient: radial-gradient(at 0% 0%, rgba(129, 140, 248, 0.3) 0%, transparent 65%), radial-gradient(at 100% 0%, rgba(245, 158, 11, 0.12) 0%, transparent 50%), radial-gradient(at 100% 100%, rgba(244, 63, 94, 0.1) 0%, transparent 50%), radial-gradient(at 0% 100%, rgba(59, 130, 246, 0.2) 0%, transparent 50%), #f8fafc;
+		--bg-gradient: radial-gradient(circle at 10% 20%, rgba(217, 119, 6, 0.04), transparent 55%), radial-gradient(circle at 90% 10%, rgba(37, 99, 235, 0.04), transparent 50%), linear-gradient(180deg, #ffffff 0%, #f1f5f9 100%);
 		--text-color: #333;
 		--text-hover: #000;
 		--link-color: #333;
-		--link-hover: #666;
-		--section-bg: rgba(255, 255, 255, 0.7);
+		--link-hover: #2563eb;
+		--section-bg: rgba(255, 255, 255, 0.5);
 		--section-shadow: 0 1px 2px rgba(0, 0, 0, 0.2);
 		--nav-border: #999;
 		--nav-icon-color: #666;
@@ -47,16 +47,16 @@
 /* User dark override when system is light */
 @media (prefers-color-scheme: light) {
 	html:has(#dark-mode-toggle:checked) {
-		--bg-gradient: radial-gradient(at 0% 0%, rgba(99, 102, 241, 0.25) 0%, transparent 65%), radial-gradient(at 100% 0%, rgba(59, 130, 246, 0.15) 0%, transparent 50%), radial-gradient(at 100% 100%, rgba(168, 85, 247, 0.15) 0%, transparent 50%), radial-gradient(at 0% 100%, rgba(20, 184, 166, 0.15) 0%, transparent 50%), #030712;
-		--text-color: #f1f5f9;
+		--bg-gradient: radial-gradient(circle at 10% 20%, #b24a2a1f, #0000 55%), radial-gradient(circle at 90% 10%, #304f6d26, #0000 50%), linear-gradient(#181614 0%, #13110f 100%);
+		--text-color: #f5f5f4;
 		--text-hover: #ffffff;
-		--link-color: #cbd5e1;
-		--link-hover: #60a5fa;
-		--section-bg: rgba(30, 41, 59, 0.75);
+		--link-color: #d6d3d1;
+		--link-hover: #e07a5f;
+		--section-bg: rgba(41, 37, 36, 0.75);
 		--section-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.3), 0 2px 4px -1px rgba(0, 0, 0, 0.2);
-		--nav-border: #334155;
-		--nav-icon-color: #94a3b8;
-		--paragraph-color: #cbd5e1;
+		--nav-border: #44403c;
+		--nav-icon-color: #a8a29e;
+		--paragraph-color: #d6d3d1;
 	}
 }
 
@@ -101,12 +101,28 @@ nav .avatar {
 	display: inline-block;
 	vertical-align: middle;
 	margin-right: 12px;
+	cursor: pointer;
+	position: relative;
+	border-radius: 50%;
 }
 
 nav .avatar img {
 	display: block;
 	border-radius: 50%;
 	width: 100px;
+}
+
+nav .avatar::after {
+	content: '';
+	position: absolute;
+	inset: 0;
+	border-radius: 50%;
+	pointer-events: none;
+	transition: box-shadow 0.2s ease;
+}
+
+nav .avatar:hover::after {
+	box-shadow: 0 0 0 5px var(--link-hover), inset 0 0 0 2px white;
 }
 
 @media (min-width: 768px) {
@@ -285,65 +301,7 @@ section label.collapse:hover {
 
 footer {
 	text-align: center;
-	line-height: 50px;
-	font-size: 30px;
-}
-
-footer a {
-	color: #fff;
-}
-
-footer div {
-	font-size: 16px;
-}
-
-footer div .fa {
-	font-size: 21px;
-}
-
-.footer-toggle {
-	display: inline-block;
-	cursor: pointer;
-	color: inherit;
-	transition: color 0.3s ease;
-}
-
-.footer-toggle:hover {
-	color: var(--text-hover);
-}
-
-/* Default fallback (Light mode): show moon, hide sun */
-.footer-toggle .sun-icon {
-	display: none;
-}
-
-.footer-toggle .moon-icon {
-	display: inline-block;
-}
-
-html:has(#dark-mode-toggle:checked) .footer-toggle .sun-icon {
-	display: inline-block;
-}
-
-html:has(#dark-mode-toggle:checked) .footer-toggle .moon-icon {
-	display: none;
-}
-
-/* System prefers dark: show sun, hide moon */
-@media (prefers-color-scheme: dark) {
-	.footer-toggle .sun-icon {
-		display: inline-block;
-	}
-
-	.footer-toggle .moon-icon {
-		display: none;
-	}
-
-	html:has(#dark-mode-toggle:checked) .footer-toggle .sun-icon {
-		display: none;
-	}
-
-	html:has(#dark-mode-toggle:checked) .footer-toggle .moon-icon {
-		display: inline-block;
-	}
+	padding: 0 20px;
+	font-size: 42px;
+	color: var(--nav-icon-color);
 }

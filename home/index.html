@@ -110,13 +110,12 @@
         <section id="projects">
             <h2>Projects</h2>
             <h3><a href="/picross/">Picross</a></h3>
-            <p>Sudoku-like puzzle game featuring variable board sizes, preset difficulty levels, dark mode, local saves,
-                and customizable seeds.</p>
+            <p>Sudoku-like puzzle game featuring randomly generated boards, preset difficulty levels, dark mode, local
+                saves, and customizable seeds. Uses a Web Worker to calculate unique solutions.</p>
             <p>Top result for "picross" on Google search with 15k+ monthly active players.</p>
             <h3><a href="/aoe2/">Age of Empires 2 replay viewer</a></h3>
-            <p>In-browser minimap playback, key stats, and build timelines. Upload a replay file or load a replay by URL
-                from api.ageofempires.com. Uses a Rust library to parse replay files, compiled to WebAssembly for fast
-                processing in the browser.</p>
+            <p>In-browser minimap playback, key stats, and build timelines. Upload a replay file or load from URL. Uses
+                a Rust library to parse replay files, compiled to WebAssembly for fast client-side processing.</p>
             <input class="toggle" id="projects-more" type="checkbox" />
             <label for="projects-more"></label>
             <div>

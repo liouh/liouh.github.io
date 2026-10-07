@@ -54,7 +54,7 @@ $(function () {
 
 		resume: function () {
 			if (!localStorageSupport() || localStorage['picross.saveVersion'] != saveVersion) {
-				this.reset();
+				this.reset(undefined, 'initial');
 				return;
 			}
 
@@ -118,13 +118,14 @@ $(function () {
 					showRainbow: loaded.showRainbow
 				});
 			} catch (e) {
-				this.reset();
+				this.reset(undefined, 'initial');
 			}
 
 			this.checkForMultipleSolutions();
 		},
 
-		reset: function (customSeed) {
+		reset: function (customSeed, source) {
+			source = source || (customSeed ? 'custom' : 'initial');
 			var seed = customSeed;
 			if (seed === undefined) {
 				seed = '' + new Date().getTime();
@@ -201,6 +202,15 @@ $(function () {
 			});
 
 			this.checkForMultipleSolutions();
+
+			if (typeof gtag === 'function') {
+				gtag('event', 'new_game', {
+					game: 'picross',
+					board_size: this.get('dimensionWidth') + 'x' + this.get('dimensionHeight'),
+					creation_method: source,
+					seed: seed
+				});
+			}
 		},
 
 		guess: function (x, y, guess) {
@@ -484,15 +494,15 @@ $(function () {
 			});
 		},
 
-		_newGame: function (customSeed) {
+		_newGame: function (customSeed, source) {
 			this.changeDimensions();
-			this.model.reset(customSeed);
+			this.model.reset(customSeed, source || (customSeed ? 'custom' : 'new'));
 			this.checkCompletion();
 		},
 
 		newGame: function (e) {
 			$('#customSeed').val('');
-			this._newGame();
+			this._newGame(undefined, 'new');
 		},
 
 		newCustom: function (e) {
@@ -500,9 +510,9 @@ $(function () {
 
 			var customSeed = $.trim($('#customSeed').val());
 			if (customSeed.length) {
-				this._newGame(customSeed);
+				this._newGame(customSeed, 'custom');
 			} else {
-				this._newGame();
+				this._newGame(undefined, 'custom');
 			}
 		},
 
@@ -716,6 +726,23 @@ $(function () {
 					hintsX: hintsX,
 					hintsY: hintsY
 				});
+
+				if (typeof gtag === 'function') {
+					var perfect = this.model.get('mistakes') === 0;
+					var hasMultipleSolutions = this.model.get('hasMultipleSolutions');
+					var uniqueSolution = 'unknown';
+					if (hasMultipleSolutions === 0) {
+						uniqueSolution = true;
+					} else if (hasMultipleSolutions === 1) {
+						uniqueSolution = false;
+					}
+					gtag('event', 'puzzle_complete', {
+						game: 'picross',
+						board_size: this.model.get('dimensionWidth') + 'x' + this.model.get('dimensionHeight'),
+						perfect_solve: perfect,
+						unique_solution: uniqueSolution
+					});
+				}
 			}
 		},
 

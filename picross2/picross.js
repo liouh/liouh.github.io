@@ -53,7 +53,7 @@ $(function () {
 
 		resume: function () {
 			if (!localStorageSupport() || localStorage['picross2.saveVersion'] != saveVersion) {
-				this.reset();
+				this.reset(undefined, 'initial');
 				return;
 			}
 
@@ -119,11 +119,12 @@ $(function () {
 
 				this.checkForMultipleSolutions();
 			} catch (e) {
-				this.reset();
+				this.reset(undefined, 'initial');
 			}
 		},
 
-		reset: function (customSeed) {
+		reset: function (customSeed, source) {
+			source = source || (customSeed ? 'custom' : 'initial');
 			var seed = customSeed;
 			if (seed === undefined) {
 				seed = '' + new Date().getTime();
@@ -161,6 +162,15 @@ $(function () {
 			});
 
 			this.checkForMultipleSolutions();
+
+			if (typeof gtag === 'function') {
+				gtag('event', 'new_game', {
+					game: 'picross2',
+					board_size: this.get('dimensionWidth') + 'x' + this.get('dimensionHeight'),
+					creation_method: source,
+					seed: seed
+				});
+			}
 		},
 
 		getHintsX: function (solution) {
@@ -499,14 +509,14 @@ $(function () {
 			});
 		},
 
-		_newGame: function (customSeed) {
+		_newGame: function (customSeed, source) {
 			this.changeDimensions();
-			this.model.reset(customSeed);
+			this.model.reset(customSeed, source || (customSeed ? 'custom' : 'new'));
 		},
 
 		newGame: function (e) {
 			$('#customSeed').val('');
-			this._newGame();
+			this._newGame(undefined, 'new');
 		},
 
 		newCustom: function (e) {
@@ -514,9 +524,9 @@ $(function () {
 
 			var customSeed = $.trim($('#customSeed').val());
 			if (customSeed.length) {
-				this._newGame(customSeed);
+				this._newGame(customSeed, 'custom');
 			} else {
-				this._newGame();
+				this._newGame(undefined, 'custom');
 			}
 		},
 
@@ -711,6 +721,22 @@ $(function () {
 				complete: true,
 				perfect: perfect,
 			});
+
+			if (typeof gtag === 'function') {
+				var hasMultipleSolutions = this.model.get('hasMultipleSolutions');
+				var uniqueSolution = 'unknown';
+				if (hasMultipleSolutions === 0) {
+					uniqueSolution = true;
+				} else if (hasMultipleSolutions === 1) {
+					uniqueSolution = false;
+				}
+				gtag('event', 'puzzle_complete', {
+					game: 'picross2',
+					board_size: this.model.get('dimensionWidth') + 'x' + this.model.get('dimensionHeight'),
+					perfect_solve: perfect,
+					unique_solution: uniqueSolution
+				});
+			}
 		},
 
 		render: function () {

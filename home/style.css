@@ -12,6 +12,7 @@
 	--nav-border: #999;
 	--nav-icon-color: #666;
 	--paragraph-color: #333;
+	--img-border: #ddd;
 }
 
 @media (prefers-color-scheme: dark) {
@@ -27,6 +28,7 @@
 		--nav-border: #44403c;
 		--nav-icon-color: #a8a29e;
 		--paragraph-color: #d6d3d1;
+		--img-border: #333;
 	}
 }
 
@@ -44,6 +46,7 @@
 		--nav-border: #999;
 		--nav-icon-color: #666;
 		--paragraph-color: #333;
+		--img-border: #ddd;
 	}
 }
 
@@ -61,6 +64,7 @@
 		--nav-border: #44403c;
 		--nav-icon-color: #a8a29e;
 		--paragraph-color: #d6d3d1;
+		--img-border: #333;
 	}
 }
 
@@ -318,4 +322,49 @@ footer p {
 	font-size: 42px;
 	color: var(--nav-icon-color);
 	margin: 0;
+}
+
+/* ================================================== *\
+   project images
+\* ================================================== */
+
+.aoe2-img,
+.picross-img {
+	margin-top: 15px;
+	max-width: 95%;
+}
+
+.picross-img {
+	border-radius: 8px;
+	border: 1px solid var(--img-border);
+}
+
+.picross-dark {
+	display: none;
+}
+
+html:has(#dark-mode-toggle:checked) .picross-light {
+	display: none;
+}
+
+html:has(#dark-mode-toggle:checked) .picross-dark {
+	display: inline-block;
+}
+
+@media (prefers-color-scheme: dark) {
+	.picross-light {
+		display: none;
+	}
+
+	.picross-dark {
+		display: inline-block;
+	}
+
+	html:has(#dark-mode-toggle:checked) .picross-light {
+		display: inline-block;
+	}
+
+	html:has(#dark-mode-toggle:checked) .picross-dark {
+		display: none;
+	}
 }
